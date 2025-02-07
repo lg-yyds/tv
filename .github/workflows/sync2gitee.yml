@@ -23,7 +23,7 @@ jobs:
           echo "${{ secrets.GITEE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan gitee.com >> ~/.ssh/known_hosts
-          git clone git@gitee.com:taksssss/tv.git gitee-repo
+          git clone git@gitee.com:lg-yyds/tv.git gitee-repo
 
       # Step 3: Replace Gitee repo files with GitHub repo files
       - name: Copy files from GitHub to Gitee
@@ -46,7 +46,7 @@ jobs:
           git init
           git config --global user.name "${{ secrets.GITEE_USER_NAME }}"
           git config --global user.email "${{ secrets.GITEE_USER_EMAIL }}"
-          git remote add origin git@gitee.com:taksssss/tv.git
+          git remote add origin git@gitee.com:lg-yyds/tv.git
           git add .
           if ! git diff --cached --quiet; then
             now_time=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
