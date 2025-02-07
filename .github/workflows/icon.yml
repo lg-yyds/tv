@@ -23,9 +23,9 @@ jobs:
               cp "$file" "icon_new/${filename}.png"
           done
 
-      - name: Clone taksssss/TVlogo
+      - name: Clone lg-yyds/TVlogo
         run: |
-          git clone --depth 1 --branch main https://github.com/taksssss/TVlogo.git
+          git clone --depth 1 --branch main https://github.com/lg-yyds/TVlogo.git
 
       - name: Extract channel icons from markdown files
         run: |
@@ -39,7 +39,7 @@ jobs:
                     match($(i + 1), /<img src="([^"]+)"/, arr)
                     image_url = arr[1]
                     if (channel_name && image_url) {
-                      gsub(/https:\/\/raw.githubusercontent.com\/taksssss\/TVlogo\/.*\/img\//, "TVlogo/img/", image_url)
+                      gsub(/https:\/\/raw.githubusercontent.com\/lg-yyds\/TVlogo\/.*\/img\//, "TVlogo/img/", image_url)
                       gsub(/[ _-]/, "", channel_name)
                       channel_name = toupper(channel_name)
                       sub(/频道$|頻道$|电视台$|電視台$|電視臺$|台$|臺$/, "", channel_name)
@@ -174,7 +174,7 @@ jobs:
           echo '{' > iconList_default.json
           for file in icon/*.png; do
             filename=$(basename "$file" .png)
-            echo "\"$filename\": \"https://gcore.jsdelivr.net/gh/taksssss/tv/icon/$filename.png\"," >> iconList_default.json
+            echo "\"$filename\": \"https://gcore.jsdelivr.net/gh/lg-yyds/tv/icon/$filename.png\"," >> iconList_default.json
           done
           sed -i '$ s/,$//' iconList_default.json
           echo '}' >> iconList_default.json
