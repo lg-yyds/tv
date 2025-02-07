@@ -8,7 +8,7 @@ on:
 
 jobs:
   run:
-    name: Sync GitHub to Gitee
+    name: Sync GitHub to Gitee using Gitee Open API
     runs-on: ubuntu-latest
     steps:
       # Step 1: Clone GitHub repository
@@ -16,74 +16,42 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/${{ github.repository }} github-repo
 
-      # Step 2: Clone Gitee repository
-      - name: Clone the Gitee repo
+      # Step 2: Prepare files for uploading to Gitee
+      - name: Prepare files for Gitee upload
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GITEE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan gitee.com >> ~/.ssh/known_hosts
-          git clone git@gitee.com:lg-yyds/tv.git gitee-repo
-
-      # Step 3: Replace Gitee repo files with GitHub repo files
-      - name: Copy files from GitHub to Gitee
-        run: |
-          rm -rf gitee-repo/*
+          mkdir -p gitee-repo
           cp -r github-repo/epg gitee-repo/
           cp github-repo/README.md gitee-repo/
 
-      # Step 4: Run Git GC to optimize storage
-      - name: Run Git GC
+      # Step 3: Create a commit and push to Gitee using Gitee API
+      - name: Commit and push changes to Gitee using API
         run: |
-          cd gitee-repo
-          git gc --prune=now
+          # Set variables
+          GITEE_API_URL="https://gitee.com/api/v5/repos/lg-yyds/tv/contents"
+          COMMIT_MESSAGE="同步 GitHub 更新：$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')"
+          BRANCH_NAME="main"
+          
+          # Function to upload a file using Gitee API
+          upload_file() {
+            FILE_PATH=$1
+            FILE_NAME=$(basename $FILE_PATH)
+            FILE_CONTENT=$(base64 -w 0 $FILE_PATH)
+            
+            curl -X PUT \
+              -H "Authorization: token ${{ secrets.GITEE_ACCESS_TOKEN }}" \
+              -d '{
+                    "branch": "'"$BRANCH_NAME"'",
+                    "message": "'"$COMMIT_MESSAGE"'",
+                    "content": "'"$FILE_CONTENT"'",
+                    "path": "/'"$FILE_NAME"'"
+                  }' \
+              "$GITEE_API_URL$FILE_PATH"
+          }
 
-      # Step 5: Commit and push changes to Gitee
-      - name: Commit and push changes to Gitee
-        run: |
-          cd gitee-repo
-          rm -rf .git
-          git init
-          git config --global user.name "${{ secrets.GITEE_USER_NAME }}"
-          git config --global user.email "${{ secrets.GITEE_USER_EMAIL }}"
-          git remote add origin git@gitee.com:lg-yyds/tv.git
-          git add .
-          if ! git diff --cached --quiet; then
-            now_time=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
-            git commit -m "同步 GitHub 更新：$now_time"
-            git checkout -b main || echo "main 分支已存在"
-            git push --force origin main || echo "推送到 Gitee 失败"
-          else
-            echo "没有文件可提交"
-          fi
+          # Upload files from GitHub to Gitee
+          upload_file "gitee-repo/epg"
+          upload_file "gitee-repo/README.md"
 
-# name: sync2gitee
-
-# on:
-#   push:
-#   workflow_dispatch:
-#   repository_dispatch:
-#     types: [sync]
-# jobs:
-#   run:
-#     name: Sync GitHub to Gitee
-#     runs-on: ubuntu-latest
-#     steps:
-
-#       - name: Get current repository name
-#         id: info
-#         uses: actions/github-script@v3.1
-#         with:
-#           github-token: ${{secrets.GH_TOKEN}}
-#           result-encoding: string
-#           script: |
-#             return context.repo.repo;
-
-#       - name: Mirror the GitHub repos to Gitee
-#         uses: Yikun/hub-mirror-action@master
-#         with:
-#           src: github/taksssss
-#           dst: gitee/taksssss
 #           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
 #           dst_token: ${{ secrets.GITEE_TOKEN }}
 #           static_list: '${{ steps.info.outputs.result }}'
