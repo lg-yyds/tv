@@ -360551,4 +360551,12 @@ Explorers Craig Leeson and Tanya Streeter and a team of international scientists
       <stereo>stereo</stereo>
     </audio>
   </programme>
-  <programme channel="430258" start="20250513050000 +0000" stop="2025051400000
+  <programme channel="430258" start="20250513050000 +0000" stop="20250514000000 +0000">
+    <title lang="zh">Heart &amp; Soul: 50 Rock Ballads</title>
+    <desc>Carol Decker from T'Pau with 50 Rock Ballads written from the Heart and Soul! With Queen, Bon Jovi, The Cutting Crew and Bonnie Tyler.</desc>
+    <date>20250513</date>
+    <audio>
+      <stereo>stereo</stereo>
+    </audio>
+  </programme>
+</tv>
