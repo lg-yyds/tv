@@ -698,12 +698,12 @@
     {
       "epgid": "CHC动作电影",
       "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/CHC动作电影.png",
-      "name": "CHC动作电影,CHCATV,CHC动作,📀CHC动作电影,CHC-动作电影,CHC动作电影F,CHC动作电影IPV6"
+      "name": "CHC动作电影,CHCATV,CHC动作,📀CHC动作电影,CHC-动作电影,CHC动作电影F,CHC动作电影IPV6,动作电影HD"
     },
     {
       "epgid": "CHC家庭影院",
       "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/CHC家庭影院.png",
-      "name": "CHC家庭影院,CHCTV,CHC家庭,📀CHC家庭影院,CHC-家庭影院,CHC家庭影院F,CHC家庭影院IPV6,CHC家庭电影"
+      "name": "CHC家庭影院,CHCTV,CHC家庭,📀CHC家庭影院,CHC-家庭影院,CHC家庭影院F,CHC家庭影院IPV6,CHC家庭电影,家庭影院HD"
     },
     {
       "epgid": "CHC家庭电影",
@@ -3578,7 +3578,7 @@
     {
       "epgid": "NEWTV动作电影",
       "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/NEWTV动作电影.png",
-      "name": "NEWTV动作电影,动作电影"
+      "name": "NEWTV动作电影,"
     },
     {
       "epgid": "NEWTV古装剧场",
@@ -11263,7 +11263,7 @@
     {
       "epgid": "湖北经视",
       "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/湖北经视.png",
-      "name": "湖北经视,湖北经济-1080P"
+      "name": "湖北经视,湖北经济-1080P,湖北经视HD"
     },
     {
       "epgid": "湖北综合",
